@@ -1,0 +1,36 @@
+<div class="flex justify-center">
+  <section hlmCard class="border border-amber-500">
+    <div hlmCardHeader>
+      <p>Cadastrar nova pauta</p>
+    </div>
+
+    <div hlmCardContent>
+      <div class="">
+        <label hlmLabel for="descricao-input">Descrição</label>
+        <input
+          hlmInput
+          id="descricao-input"
+          name="descricao"
+          type="text"
+          placeholder="Digite uma descrição"
+          [(ngModel)]="descricao"
+        />
+      </div>
+      <div>
+        <label hlmLabel for="categoria-input">Categoria</label>
+        <input
+          hlmInput
+          id="categoria-input"
+          name="categoria"
+          type="text"
+          placeholder="Digite uma categoria"
+          [(ngModel)]="categoria"
+        />
+      </div>
+
+      <div class="flex justify-end">
+        <button hlmBtn type="button" (click)="cadastrar()">Cadastrar</button>
+      </div>
+    </div>
+  </section>
+</div>
