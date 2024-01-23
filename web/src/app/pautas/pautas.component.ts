@@ -41,11 +41,11 @@ export class PautasComponent {
   pautas: Pauta[] = [];
 
   ngOnInit() {
-    this.http.get(SERVER_URL + '/pautas').subscribe(
-      (response) => {
+    this.http.get(SERVER_URL + '/pautas').subscribe({
+      next: (response) => {
         this.pautas = response as Pauta[];
       },
-      (error) => console.log('error: ', error)
-    );
+      error: (error) => console.log('error: ', error),
+    });
   }
 }

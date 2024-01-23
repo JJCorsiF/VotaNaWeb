@@ -58,8 +58,8 @@ export class CadastrarPautaComponent {
         descricao: this.descricao,
         categoria: this.categoria,
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           console.log(response);
 
           if (this.abrirSessao) {
@@ -69,8 +69,8 @@ export class CadastrarPautaComponent {
 
           this.router.navigate(['pautas']);
         },
-        (error) => console.log('error: ', error)
-      );
+        error: (error) => console.log('error: ', error),
+      });
   }
 
   private abrirNovaSessao(id: string) {
@@ -78,11 +78,11 @@ export class CadastrarPautaComponent {
       .post(`${SERVER_URL}/pautas/${id}/abrirSessao`, {
         duracao: this.duracao,
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           console.log(response);
         },
-        (error) => console.log('error: ', error)
-      );
+        error: (error) => console.log('error: ', error),
+      });
   }
 }
