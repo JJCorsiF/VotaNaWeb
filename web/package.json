@@ -27,6 +27,7 @@
     "@spartan-ng/ui-checkbox-brain": "0.0.1-alpha.321",
     "@spartan-ng/ui-core": "^0.0.1-alpha.321",
     "@spartan-ng/ui-label-brain": "0.0.1-alpha.321",
+    "@spartan-ng/ui-switch-brain": "0.0.1-alpha.321",
     "autoprefixer": "^10.4.17",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",

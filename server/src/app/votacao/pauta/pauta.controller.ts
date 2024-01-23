@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
+import { Sessao } from '../domain/sessao';
 import { PautaService } from './pauta.service';
 
 @Controller('pautas')
@@ -23,7 +24,15 @@ export class PautaController {
 
   @Get()
   async listarTodas() {
-    return await this.pautaService.listarTodas();
+    return (await this.pautaService.listarTodas()).map((pauta) => ({
+      ...pauta,
+      sessao: pauta.sessao
+        ? {
+            expirou: new Sessao(pauta.sessao.dataAbertura, pauta.sessao.duracao)
+              .expirou,
+          }
+        : null,
+    }));
   }
 
   @Post()

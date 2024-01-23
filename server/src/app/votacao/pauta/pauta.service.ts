@@ -130,7 +130,11 @@ export class PautaService {
   }
 
   async listarTodas(): Promise<Pauta[]> {
-    return await this.pautaRepository.find();
+    return await this.pautaRepository.find({
+      relations: {
+        sessao: true,
+      },
+    });
   }
 
   async cadastrar(pauta): Promise<Pauta> {
