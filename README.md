@@ -72,7 +72,7 @@ POSTGRES_USER="votacao_user"
 POSTGRES_PASSWORD="digitesuasenhaforteaqui"
 ```
 
-Execute as _migrations_ no banco de daods:
+Execute as _migrations_ no banco de dados:
 
 ```bash
 yarn migrate #ou 'npm run migrate'
@@ -102,7 +102,7 @@ cd server
 yarn start:dev # ou use 'npm run start:dev'
 ```
 
-Abra em outro terminal no diretório clonado e inicie a aplicação web:
+Abra um outro terminal no diretório clonado e inicie a aplicação web:
 
 ```bash
 cd web
