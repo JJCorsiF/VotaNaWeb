@@ -2,7 +2,7 @@
   <a hlmBtn routerLink="/pautas/criar">Cadastrar pauta</a>
   <p>Pautas disponíveis</p>
 
-  <div class="flex justify-center gap-2">
+  <div class="flex justify-center flex-wrap gap-2">
     @for (pauta of pautas; track pauta) {
     <section hlmCard class="border border-amber-500">
       <div hlmCardHeader>Pauta {{ pauta.id }}</div>

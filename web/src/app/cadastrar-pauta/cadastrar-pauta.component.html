@@ -14,6 +14,7 @@
           type="text"
           placeholder="Digite uma descrição"
           [(ngModel)]="descricao"
+          required
         />
       </div>
       <div>
@@ -25,8 +26,36 @@
           type="text"
           placeholder="Digite uma categoria"
           [(ngModel)]="categoria"
+          required
         />
       </div>
+
+      <div class="flex items-center gap-2">
+        <input
+          hlmInput
+          id="abrir-sessao"
+          type="checkbox"
+          [(ngModel)]="abrirSessao"
+        />
+        <label hlmLabel for="abrir-sessao">Abrir sessão imediatamente</label>
+      </div>
+
+      @if (abrirSessao) {
+      <div>
+        <label hlmLabel for="duracao-sessao">
+          A sessão ficará aberta por:
+          <input
+            hlmInput
+            id="duracao-sessao"
+            type="number"
+            min="1"
+            [(ngModel)]="duracao"
+            required
+          />
+          minuto(s).
+        </label>
+      </div>
+      }
 
       <div class="flex justify-end">
         <button hlmBtn type="button" (click)="cadastrar()">Cadastrar</button>
