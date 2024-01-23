@@ -14,7 +14,7 @@ import { Voto } from '../persistence/voto.entity';
 import { Sessao } from './sessao';
 
 @Injectable()
-export class PautaService {
+export class VotacaoService {
   constructor(
     @InjectRepository(Pauta)
     private readonly pautaRepository: Repository<Pauta>,
@@ -100,7 +100,7 @@ export class PautaService {
     return novoVoto;
   }
 
-  async exibir(id: string): Promise<ExibirPautaResponse> {
+  async exibirPauta(id: string): Promise<ExibirPautaResponse> {
     const pauta = await this.pautaRepository.findOne({
       where: {
         id,
@@ -139,7 +139,7 @@ export class PautaService {
     };
   }
 
-  async listarTodas(): Promise<Pauta[]> {
+  async listarPautas(): Promise<Pauta[]> {
     return await this.pautaRepository.find({
       relations: {
         sessao: true,
@@ -147,7 +147,7 @@ export class PautaService {
     });
   }
 
-  async cadastrar(pauta): Promise<Pauta> {
+  async cadastrarPauta(pauta): Promise<Pauta> {
     const novaPauta = this.pautaRepository.create({
       descricao: pauta.descricao,
       categoria: pauta.categoria,

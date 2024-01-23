@@ -1,30 +1,30 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
-import { PautaService } from '../domain/pauta.service';
 import { Sessao } from '../domain/sessao';
+import { VotacaoService } from '../domain/votacao.service';
 
 @Controller('pautas')
-export class PautaController {
-  constructor(private readonly pautaService: PautaService) {}
+export class VotacaoController {
+  constructor(private readonly votacaoService: VotacaoService) {}
 
   @Post(':id/abrirSessao')
   async abrirSessao(@Param('id') id: string, @Body('duracao') duracao: number) {
-    return await this.pautaService.abrirSessao(id, duracao);
+    return await this.votacaoService.abrirSessao(id, duracao);
   }
 
   @Post(':id/votar')
   async receberVoto(@Param('id') id: string, @Body() voto) {
-    return await this.pautaService.receberVoto(id, voto);
+    return await this.votacaoService.receberVoto(id, voto);
   }
 
   @Get(':id')
-  async exibir(@Param('id') id: string) {
-    return await this.pautaService.exibir(id);
+  async exibirPauta(@Param('id') id: string) {
+    return await this.votacaoService.exibirPauta(id);
   }
 
   @Get()
-  async listarTodas() {
-    return (await this.pautaService.listarTodas()).map((pauta) => ({
+  async listarPautas() {
+    return (await this.votacaoService.listarPautas()).map((pauta) => ({
       ...pauta,
       sessao: pauta.sessao
         ? {
@@ -36,7 +36,7 @@ export class PautaController {
   }
 
   @Post()
-  async cadastrar(@Body() pauta) {
-    return await this.pautaService.cadastrar(pauta);
+  async cadastrarPauta(@Body() pauta) {
+    return await this.votacaoService.cadastrarPauta(pauta);
   }
 }
