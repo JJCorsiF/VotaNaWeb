@@ -11,6 +11,11 @@ export class PautaController {
     return await this.pautaService.abrirSessao(id, duracao);
   }
 
+  @Post(':id/votar')
+  async receberVoto(@Param('id') id: string, @Body() voto) {
+    return await this.pautaService.receberVoto(id, voto);
+  }
+
   @Get(':id')
   async exibir(@Param('id') id: string) {
     return await this.pautaService.exibir(id);

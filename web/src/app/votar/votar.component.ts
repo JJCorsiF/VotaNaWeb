@@ -15,19 +15,10 @@ import {
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 import { SERVER_URL } from '../app.config';
-
-export interface ExibirPautaResponse {
-  descricao: string;
-  categoria: string;
-  foiAprovada?: boolean;
-  sessao?: {
-    expirou: boolean;
-    totalVotos: number;
-  };
-}
+import { ExibirPautaResponse } from '../exibir-pauta/exibir-pauta.component';
 
 @Component({
-  selector: 'exibir-pauta-component',
+  selector: 'votar-component',
   standalone: true,
   imports: [
     FormsModule,
@@ -42,15 +33,15 @@ export interface ExibirPautaResponse {
     HlmLabelDirective,
     RouterLink,
   ],
-  templateUrl: './exibir-pauta.component.html',
-  styleUrl: './exibir-pauta.component.css',
+  templateUrl: './votar.component.html',
+  styleUrl: './votar.component.css',
 })
-export class ExibirPautaComponent {
+export class VotarComponent {
   id: string = '';
 
   pauta: ExibirPautaResponse | null = null;
 
-  duracao: number = 1;
+  cpf: string = '';
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -71,34 +62,46 @@ export class ExibirPautaComponent {
     this.atualizarPauta();
   }
 
-  abrirSessao() {
-    this.http
-      .post(`${SERVER_URL}/pautas/${this.id}/abrirSessao`, {
-        duracao: this.duracao,
-      })
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-          this.atualizarPauta();
-        },
-        error: (error) => console.log('error: ', error),
-      });
-  }
-
   atualizarPauta() {
     this.http.get(`${SERVER_URL}/pautas/${this.id}`).subscribe({
       next: (response) => {
         this.pauta = response as ExibirPautaResponse;
+
+        if (!this.pauta.sessao) {
+          this.router.navigate(['pautas', this.id]);
+        }
       },
       error: (error) => console.log('error: ', error),
     });
+  }
+
+  votarAFavor() {
+    this.votar('Sim');
+  }
+
+  votarContra() {
+    this.votar('Não');
   }
 
   sessaoExpirou() {
     return this.pauta?.sessao?.expirou;
   }
 
-  sessaoFoiAberta() {
-    return this.pauta?.sessao !== null;
+  private votar(voto: string) {
+    if (!this.cpf) {
+      return;
+    }
+
+    this.http
+      .post(`${SERVER_URL}/pautas/${this.id}/votar`, {
+        cpf: this.cpf,
+        voto,
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (error) => console.log('error: ', error),
+      });
   }
 }
