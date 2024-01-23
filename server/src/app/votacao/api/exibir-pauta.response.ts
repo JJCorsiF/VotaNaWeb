@@ -2,7 +2,7 @@ export interface ExibirPautaResponse {
   descricao: string;
   categoria: string;
   foiAprovada?: boolean;
-  sessao: {
+  sessao?: {
     expirou: boolean;
     totalVotos: number;
   };

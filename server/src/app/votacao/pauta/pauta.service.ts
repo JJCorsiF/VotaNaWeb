@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -6,6 +10,8 @@ import { ExibirPautaResponse } from '../api/exibir-pauta.response';
 import { Sessao } from '../domain/sessao';
 import { Pauta } from '../persistence/pauta.entity';
 import { SessaoVotacao } from '../persistence/sessao-votacao.entity';
+import { Usuario } from '../persistence/usuario.entity';
+import { Voto } from '../persistence/voto.entity';
 
 @Injectable()
 export class PautaService {
@@ -14,6 +20,10 @@ export class PautaService {
     private readonly pautaRepository: Repository<Pauta>,
     @InjectRepository(SessaoVotacao)
     private readonly sessaoRepository: Repository<SessaoVotacao>,
+    @InjectRepository(Usuario)
+    private readonly usuarioRepository: Repository<Usuario>,
+    @InjectRepository(Voto)
+    private readonly votoRepository: Repository<Voto>,
   ) {}
 
   async abrirSessao(idPauta: string, duracao: number) {
@@ -22,7 +32,9 @@ export class PautaService {
     });
 
     if (!pauta) {
-      return;
+      throw new NotFoundException(
+        'Não foi encontrada pauta com o ID informado',
+      );
     }
 
     const novaSessao = this.sessaoRepository.create({
@@ -31,6 +43,61 @@ export class PautaService {
       pauta,
     });
     await this.sessaoRepository.insert(novaSessao);
+  }
+
+  async receberVoto(idPauta: string, voto) {
+    const pauta = await this.pautaRepository.findOne({
+      where: {
+        id: idPauta,
+      },
+      relations: {
+        sessao: true,
+      },
+    });
+
+    if (!pauta) {
+      throw new NotFoundException(
+        'Não foi encontrada pauta com o ID informado',
+      );
+    }
+
+    const sessao = pauta.sessao;
+
+    if (!sessao) {
+      throw new UnprocessableEntityException(
+        'Nenhuma sessão foi aberta para essa pauta',
+      );
+    }
+
+    if (this.sessaoExpirou(sessao)) {
+      throw new UnprocessableEntityException('A sessão expirou');
+    }
+
+    if (!voto.cpf) {
+      throw new UnprocessableEntityException('Por favor informe um CPF');
+    }
+
+    const usuario = await this.buscarUsuarioPorCpf(voto.cpf);
+
+    const votoAnterior = await this.votoRepository.findOne({
+      where: {
+        sessao,
+        usuario,
+      },
+    });
+
+    if (votoAnterior) {
+      throw new UnprocessableEntityException('Você já votou nesta pauta');
+    }
+
+    const novoVoto = this.votoRepository.create({
+      sessao,
+      usuario,
+      voto: voto.voto,
+    });
+    await this.votoRepository.insert(novoVoto);
+
+    return novoVoto;
   }
 
   async exibir(id: string): Promise<ExibirPautaResponse> {
@@ -53,10 +120,12 @@ export class PautaService {
       descricao: pauta.descricao,
       categoria: pauta.categoria,
       foiAprovada: this.foiAprovada(sessaoAberta),
-      sessao: {
-        expirou: this.sessaoExpirou(sessaoAberta),
-        totalVotos,
-      },
+      sessao: sessaoAberta
+        ? {
+            expirou: this.sessaoExpirou(sessaoAberta),
+            totalVotos,
+          }
+        : null,
     };
   }
 
@@ -72,6 +141,21 @@ export class PautaService {
     await this.pautaRepository.insert(novaPauta);
 
     return novaPauta;
+  }
+
+  private async buscarUsuarioPorCpf(cpf: string) {
+    let usuario = await this.usuarioRepository.findOneBy({
+      cpf,
+    });
+
+    if (!usuario) {
+      usuario = this.usuarioRepository.create({
+        cpf,
+      });
+      await this.usuarioRepository.insert(usuario);
+    }
+
+    return usuario;
   }
 
   private foiAprovada(sessaoVotacao: SessaoVotacao): boolean {

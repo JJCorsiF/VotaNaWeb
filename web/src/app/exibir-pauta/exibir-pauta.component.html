@@ -4,12 +4,40 @@
   <div class="flex justify-center flex-wrap gap-2">
     <section hlmCard class="border border-amber-500">
       <div hlmCardHeader>Pauta {{ id }}</div>
-      <div hlmCardContent class="flex flex-col items-start justify-center">
-        <p>Descrição: {{ pauta?.descricao }}</p>
-        <p>Categoria: {{ pauta?.categoria }}</p>
-        <p>Quantidade de votos: {{ pauta?.sessao?.totalVotos }}</p>
-        <p>Foi aprovada: {{ pauta?.foiAprovada ? "Sim" : "Não" }}</p>
-        <p>Sessão encerrada: {{ pauta?.sessao?.expirou ? "Sim" : "Não" }}</p>
+      <div hlmCardContent>
+        <div class="flex flex-col items-start justify-center">
+          <p>Descrição: {{ pauta?.descricao }}</p>
+          <p>Categoria: {{ pauta?.categoria }}</p>
+          <p>Quantidade de votos: {{ pauta?.sessao?.totalVotos ?? 0 }}</p>
+          <p>Foi aprovada: {{ pauta?.foiAprovada ? "Sim" : "Não" }}</p>
+        </div>
+
+        <div class="flex flex-col items-center justify-center">
+          @if (!sessaoFoiAberta()) {
+          <p>A sessão ainda não foi aberta.</p>
+          <div>
+            <label hlmLabel for="duracao-sessao">
+              A sessão ficará aberta por:
+              <input
+                hlmInput
+                id="duracao-sessao"
+                type="number"
+                min="1"
+                [(ngModel)]="duracao"
+                required
+                value="1"
+              />
+              minuto(s).
+            </label>
+          </div>
+          <button hlmBtn (click)="abrirSessao()">Abrir sessão</button>
+          } @else { @if (!sessaoExpirou()) {
+          <p>A sessão está aberta.</p>
+          <a hlmBtn [routerLink]="['/pautas', id, 'votar']">Votar agora</a>
+          } @else {
+          <p>Sessão encerrada.</p>
+          } }
+        </div>
       </div>
     </section>
   </div>
