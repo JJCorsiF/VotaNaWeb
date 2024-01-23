@@ -11,6 +11,11 @@ export class PautaController {
     return await this.pautaService.abrirSessao(id, duracao);
   }
 
+  @Get(':id')
+  async exibir(@Param('id') id: string) {
+    return await this.pautaService.exibir(id);
+  }
+
   @Get()
   async listarTodas() {
     return await this.pautaService.listarTodas();
