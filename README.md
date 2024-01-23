@@ -50,7 +50,7 @@ Clone esse repositório.
 
 ### Instalando o servidor
 
-Abra um terminal no diretório clonado e use os comandos abaixo para instalar as dependêndias do servidor:
+Abra um terminal no diretório clonado e use os comandos abaixo para instalar as dependências do servidor:
 
 ```bash
 cd server
@@ -86,7 +86,7 @@ cd ..
 
 ### Instalando a aplicação web
 
-Use os comandos abaixo para instalar as dependêndias da aplicação web.
+Use os comandos abaixo para instalar as dependências da aplicação web.
 
 ```bash
 cd web
