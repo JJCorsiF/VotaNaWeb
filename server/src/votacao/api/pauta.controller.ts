@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
+import { PautaService } from '../domain/pauta.service';
 import { Sessao } from '../domain/sessao';
-import { PautaService } from './pauta.service';
 
 @Controller('pautas')
 export class PautaController {

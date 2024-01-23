@@ -2,13 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { configService } from 'src/config.service';
-import { PautaModule } from './votacao/pauta/pauta.module';
+import { PautaModule } from './pauta.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(configService.dbConfig),
-    PautaModule,
-  ],
+  imports: [TypeOrmModule.forRoot(configService.dbConfig), PautaModule],
   controllers: [],
   providers: [],
 })

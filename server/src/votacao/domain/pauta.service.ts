@@ -7,11 +7,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ExibirPautaResponse } from '../api/exibir-pauta.response';
-import { Sessao } from '../domain/sessao';
 import { Pauta } from '../persistence/pauta.entity';
 import { SessaoVotacao } from '../persistence/sessao-votacao.entity';
 import { Usuario } from '../persistence/usuario.entity';
 import { Voto } from '../persistence/voto.entity';
+import { Sessao } from './sessao';
 
 @Injectable()
 export class PautaService {
