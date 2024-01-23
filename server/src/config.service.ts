@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotEnv from 'dotenv';
+
 dotEnv.config();
 
 class ConfigService {

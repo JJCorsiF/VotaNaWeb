@@ -15,6 +15,7 @@ import {
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 import { SERVER_URL } from '../app.config';
+import { Pauta } from '../pautas/pautas.component';
 
 @Component({
   selector: 'cadastrar-pauta-component',
@@ -38,12 +39,20 @@ export class CadastrarPautaComponent {
   descricao: string = '';
   categoria: string = '';
 
+  abrirSessao: boolean = false;
+
+  duracao: number = 1;
+
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router
   ) {}
 
   cadastrar() {
+    if (!this.descricao || !this.categoria) {
+      return;
+    }
+
     this.http
       .post(SERVER_URL + '/pautas', {
         descricao: this.descricao,
@@ -52,7 +61,26 @@ export class CadastrarPautaComponent {
       .subscribe(
         (response) => {
           console.log(response);
+
+          if (this.abrirSessao) {
+            const { id } = response as Pauta;
+            this.abrirNovaSessao(id);
+          }
+
           this.router.navigate(['pautas']);
+        },
+        (error) => console.log('error: ', error)
+      );
+  }
+
+  private abrirNovaSessao(id: string) {
+    this.http
+      .post(`${SERVER_URL}/pautas/${id}/abrirSessao`, {
+        duracao: this.duracao,
+      })
+      .subscribe(
+        (response) => {
+          console.log(response);
         },
         (error) => console.log('error: ', error)
       );

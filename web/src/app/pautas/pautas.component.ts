@@ -13,7 +13,7 @@ import {
 } from '@spartan-ng/ui-card-helm';
 import { SERVER_URL } from '../app.config';
 
-interface Pauta {
+export interface Pauta {
   id: string;
   descricao: string;
   categoria: string;
