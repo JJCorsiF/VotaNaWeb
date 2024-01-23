@@ -116,13 +116,23 @@ export class PautaService {
 
     const totalVotos = sessaoAberta?.votos?.length ?? 0;
 
+    const expirou = this.sessaoExpirou(sessaoAberta);
+    const foiAprovada = this.foiAprovada(sessaoAberta);
+
+    if (expirou) {
+      const resultado = foiAprovada ? 'Sim' : 'Não';
+      await this.sessaoRepository.update(sessaoAberta.id, {
+        resultado,
+      });
+    }
+
     return {
       descricao: pauta.descricao,
       categoria: pauta.categoria,
-      foiAprovada: this.foiAprovada(sessaoAberta),
+      foiAprovada,
       sessao: sessaoAberta
         ? {
-            expirou: this.sessaoExpirou(sessaoAberta),
+            expirou,
             totalVotos,
           }
         : null,

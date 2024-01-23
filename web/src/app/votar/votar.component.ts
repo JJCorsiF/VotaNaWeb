@@ -100,8 +100,12 @@ export class VotarComponent {
       .subscribe({
         next: (response) => {
           console.log(response);
+          this.router.navigate(['pautas', this.id]);
         },
-        error: (error) => console.log('error: ', error),
+        error: (error) => {
+          console.log('error: ', error);
+          this.router.navigate(['pautas', this.id]);
+        },
       });
   }
 }
