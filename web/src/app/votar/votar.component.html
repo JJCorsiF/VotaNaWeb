@@ -1,0 +1,43 @@
+<div class="flex flex-col items-center gap-3">
+  <a hlmBtn routerLink="/pautas">Lista de pautas</a>
+  <a hlmBtn [routerLink]="['/pautas', id]">Detalhes desta pauta</a>
+
+  <div class="flex justify-center flex-wrap gap-2">
+    <section hlmCard class="border border-amber-500">
+      <div hlmCardHeader>Pauta {{ id }}</div>
+      <div hlmCardContent class="flex flex-col gap-3">
+        <div class="flex flex-col items-start justify-center">
+          <p>Descrição: {{ pauta?.descricao }}</p>
+          <p>Categoria: {{ pauta?.categoria }}</p>
+        </div>
+
+        <div class="flex flex-col items-center justify-center">
+          <div class="flex items-center">
+            <label hlmLabel for="cpf-input">Informe o seu CPF para votar</label>
+            <input
+              hlmInput
+              id="cpf-input"
+              name="cpf"
+              type="text"
+              placeholder="000.000.000-00"
+              [(ngModel)]="cpf"
+            />
+          </div>
+
+          <div class="flex flex-col items-center">
+            @if (!sessaoExpirou()) {
+            <p>Você é a favor desta pauta?</p>
+
+            <div class="flex items-center gap-4">
+              <button hlmBtn (click)="votarAFavor()">Sim</button>
+              <button hlmBtn (click)="votarContra()">Não</button>
+            </div>
+            } @else {
+            <p>A sessão já encerrou.</p>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
