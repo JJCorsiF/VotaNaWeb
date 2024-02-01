@@ -33,7 +33,6 @@ import { Pauta } from '../pautas/pautas.component';
     HlmLabelDirective,
   ],
   templateUrl: './cadastrar-pauta.component.html',
-  styleUrl: './cadastrar-pauta.component.css',
 })
 export class CadastrarPautaComponent {
   descricao: string = '';

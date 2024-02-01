@@ -42,7 +42,6 @@ export interface Pauta {
     RouterLink,
   ],
   templateUrl: './pautas.component.html',
-  styleUrl: './pautas.component.css',
 })
 export class PautasComponent {
   filtroDescricao: string = '';

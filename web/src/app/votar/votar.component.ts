@@ -34,7 +34,6 @@ import { ExibirPautaResponse } from '../exibir-pauta/exibir-pauta.component';
     RouterLink,
   ],
   templateUrl: './votar.component.html',
-  styleUrl: './votar.component.css',
 })
 export class VotarComponent {
   id: string = '';

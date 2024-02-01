@@ -43,7 +43,6 @@ export interface ExibirPautaResponse {
     RouterLink,
   ],
   templateUrl: './exibir-pauta.component.html',
-  styleUrl: './exibir-pauta.component.css',
 })
 export class ExibirPautaComponent {
   id: string = '';
