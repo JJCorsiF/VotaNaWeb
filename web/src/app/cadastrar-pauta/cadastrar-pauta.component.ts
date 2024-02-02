@@ -1,37 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
-import {
-  HlmCardContentDirective,
-  HlmCardDescriptionDirective,
-  HlmCardDirective,
-  HlmCardFooterDirective,
-  HlmCardHeaderDirective,
-  HlmCardTitleDirective,
-} from '@spartan-ng/ui-card-helm';
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
-import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 import { SERVER_URL } from '../app.config';
 import { Pauta } from '../pautas/pautas.component';
+import { SharedModule } from '../shared.module';
 
 @Component({
   selector: 'cadastrar-pauta-component',
   standalone: true,
-  imports: [
-    FormsModule,
-    HlmButtonDirective,
-    HlmCardContentDirective,
-    HlmCardDescriptionDirective,
-    HlmCardDirective,
-    HlmCardFooterDirective,
-    HlmCardHeaderDirective,
-    HlmCardTitleDirective,
-    HlmInputDirective,
-    HlmLabelDirective,
-  ],
+  imports: [SharedModule],
   templateUrl: './cadastrar-pauta.component.html',
 })
 export class CadastrarPautaComponent {

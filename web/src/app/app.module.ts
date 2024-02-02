@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { SharedModule } from './shared.module';
 
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [],
-  imports: [CommonModule],
+  imports: [SharedModule.forRoot()],
 })
 export class AppModule {}
