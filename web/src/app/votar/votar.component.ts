@@ -7,7 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { VotacaoService } from '../shared/votacao.service';
 
 @Component({
-  selector: 'votar-component',
+  selector: 'votar-page',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './votar.component.html',

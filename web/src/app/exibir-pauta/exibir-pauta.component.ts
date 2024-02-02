@@ -7,7 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { VotacaoService } from '../shared/votacao.service';
 
 @Component({
-  selector: 'exibir-pauta-component',
+  selector: 'exibir-pauta-page',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './exibir-pauta.component.html',

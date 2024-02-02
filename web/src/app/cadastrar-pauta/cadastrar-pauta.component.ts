@@ -7,7 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { VotacaoService } from '../shared/votacao.service';
 
 @Component({
-  selector: 'cadastrar-pauta-component',
+  selector: 'cadastrar-pauta-page',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './cadastrar-pauta.component.html',

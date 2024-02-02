@@ -6,7 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { VotacaoService } from '../shared/votacao.service';
 
 @Component({
-  selector: 'listar-pautas-component',
+  selector: 'listar-pautas-page',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './listar-pautas.component.html',
