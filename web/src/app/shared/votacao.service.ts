@@ -20,11 +20,11 @@ export class VotacaoService {
   }
 
   buscarPautas() {
-    return this.http.get(SERVER_URL + '/pautas');
+    return this.http.get(`${SERVER_URL}/pautas`);
   }
 
   cadastrarPauta(descricao: string, categoria: string) {
-    return this.http.post(SERVER_URL + '/pautas', {
+    return this.http.post(`${SERVER_URL}/pautas`, {
       descricao,
       categoria,
     });
