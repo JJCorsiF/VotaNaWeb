@@ -1,17 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { SERVER_URL } from '../app.config';
-import { SharedModule } from '../shared.module';
-
-export interface Pauta {
-  id: string;
-  descricao: string;
-  categoria: string;
-  sessao: {
-    expirou: boolean;
-  };
-}
+import { Pauta } from '../shared/pauta';
+import { SharedModule } from '../shared/shared.module';
+import { VotacaoService } from '../shared/votacao.service';
 
 @Component({
   selector: 'pautas-component',
@@ -26,16 +18,25 @@ export class PautasComponent {
   pautas: Pauta[] = [];
   pautasFiltradas: Pauta[] = [];
 
-  constructor(private readonly http: HttpClient) {}
+  subscriptions: Subscription[] = [];
+
+  constructor(private readonly votacaoService: VotacaoService) {}
 
   ngOnInit() {
-    this.http.get(SERVER_URL + '/pautas').subscribe({
+    const subscription = this.votacaoService.buscarPautas().subscribe({
       next: (response) => {
         this.pautas = response as Pauta[];
         this.pautasFiltradas = this.pautas;
       },
       error: (error) => console.log('error: ', error),
     });
+
+    this.subscriptions.push(subscription);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.subscriptions = [];
   }
 
   atualizarPautas() {

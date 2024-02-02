@@ -1,19 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { SERVER_URL } from '../app.config';
-import { SharedModule } from '../shared.module';
-
-export interface ExibirPautaResponse {
-  descricao: string;
-  categoria: string;
-  foiAprovada?: boolean;
-  sessao?: {
-    expirou: boolean;
-    totalVotos: number;
-  };
-}
+import { ExibirPautaResponse } from '../shared/exibir-pauta.response';
+import { SharedModule } from '../shared/shared.module';
+import { VotacaoService } from '../shared/votacao.service';
 
 @Component({
   selector: 'exibir-pauta-component',
@@ -28,10 +19,12 @@ export class ExibirPautaComponent {
 
   duracao: number = 1;
 
+  subscriptions: Subscription[] = [];
+
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly http: HttpClient,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly votacaoService: VotacaoService
   ) {}
 
   ngOnInit() {
@@ -47,11 +40,14 @@ export class ExibirPautaComponent {
     this.atualizarPauta();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.subscriptions = [];
+  }
+
   abrirSessao() {
-    this.http
-      .post(`${SERVER_URL}/pautas/${this.id}/abrirSessao`, {
-        duracao: this.duracao,
-      })
+    const subscription = this.votacaoService
+      .abrirSessao(this.id, this.duracao)
       .subscribe({
         next: (response) => {
           console.log(response);
@@ -59,15 +55,19 @@ export class ExibirPautaComponent {
         },
         error: (error) => console.log('error: ', error),
       });
+
+    this.subscriptions.push(subscription);
   }
 
   atualizarPauta() {
-    this.http.get(`${SERVER_URL}/pautas/${this.id}`).subscribe({
+    const subscription = this.votacaoService.buscarPauta(this.id).subscribe({
       next: (response) => {
         this.pauta = response as ExibirPautaResponse;
       },
       error: (error) => console.log('error: ', error),
     });
+
+    this.subscriptions.push(subscription);
   }
 
   sessaoExpirou() {

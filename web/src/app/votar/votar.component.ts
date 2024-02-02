@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { SERVER_URL } from '../app.config';
-import { ExibirPautaResponse } from '../exibir-pauta/exibir-pauta.component';
-import { SharedModule } from '../shared.module';
+import { ExibirPautaResponse } from '../shared/exibir-pauta.response';
+import { SharedModule } from '../shared/shared.module';
+import { VotacaoService } from '../shared/votacao.service';
 
 @Component({
   selector: 'votar-component',
@@ -19,10 +19,12 @@ export class VotarComponent {
 
   cpf: string = '';
 
+  subscriptions: Subscription[] = [];
+
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly http: HttpClient,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly votacaoService: VotacaoService
   ) {}
 
   ngOnInit() {
@@ -38,8 +40,13 @@ export class VotarComponent {
     this.atualizarPauta();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.subscriptions = [];
+  }
+
   atualizarPauta() {
-    this.http.get(`${SERVER_URL}/pautas/${this.id}`).subscribe({
+    const subscription = this.votacaoService.buscarPauta(this.id).subscribe({
       next: (response) => {
         this.pauta = response as ExibirPautaResponse;
 
@@ -49,6 +56,8 @@ export class VotarComponent {
       },
       error: (error) => console.log('error: ', error),
     });
+
+    this.subscriptions.push(subscription);
   }
 
   votarAFavor() {
@@ -68,11 +77,8 @@ export class VotarComponent {
       return;
     }
 
-    this.http
-      .post(`${SERVER_URL}/pautas/${this.id}/votar`, {
-        cpf: this.cpf,
-        voto,
-      })
+    const subscription = this.votacaoService
+      .votar(this.id, this.cpf, voto)
       .subscribe({
         next: (response) => {
           console.log(response);
@@ -83,5 +89,7 @@ export class VotarComponent {
           this.router.navigate(['pautas', this.id]);
         },
       });
+
+    this.subscriptions.push(subscription);
   }
 }
