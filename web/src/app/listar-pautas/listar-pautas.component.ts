@@ -6,12 +6,12 @@ import { SharedModule } from '../shared/shared.module';
 import { VotacaoService } from '../shared/votacao.service';
 
 @Component({
-  selector: 'pautas-component',
+  selector: 'listar-pautas-component',
   standalone: true,
   imports: [SharedModule],
-  templateUrl: './pautas.component.html',
+  templateUrl: './listar-pautas.component.html',
 })
-export class PautasComponent {
+export class ListarPautasComponent {
   filtroDescricao: string = '';
   mostrarApenasComSessaoAberta: boolean = false;
 
