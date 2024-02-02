@@ -18,33 +18,18 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
+    "lib": ["ES2022", "dom"],
     "baseUrl": "./",
     "paths": {
-      "@spartan-ng/ui-input-helm": [
-        "libs/ui/ui-input-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-label-helm": [
-        "libs/ui/ui-label-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-button-helm": [
-        "./libs/ui/ui-button-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-card-helm": [
-        "./libs/ui/ui-card-helm/src/index.ts"
-      ],
+      "@spartan-ng/ui-input-helm": ["libs/ui/ui-input-helm/src/index.ts"],
+      "@spartan-ng/ui-label-helm": ["libs/ui/ui-label-helm/src/index.ts"],
+      "@spartan-ng/ui-button-helm": ["./libs/ui/ui-button-helm/src/index.ts"],
+      "@spartan-ng/ui-card-helm": ["./libs/ui/ui-card-helm/src/index.ts"],
       "@spartan-ng/ui-checkbox-helm": [
         "./libs/ui/ui-checkbox-helm/src/index.ts"
       ],
-      "@spartan-ng/ui-icon-helm": [
-        "./libs/ui/ui-icon-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-switch-helm": [
-        "./libs/ui/ui-switch-helm/src/index.ts"
-      ]
+      "@spartan-ng/ui-icon-helm": ["./libs/ui/ui-icon-helm/src/index.ts"],
+      "@spartan-ng/ui-switch-helm": ["./libs/ui/ui-switch-helm/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

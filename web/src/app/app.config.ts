@@ -3,6 +3,7 @@ import { ApplicationConfig } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 
+import { environment } from 'src/environments/environment';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -13,4 +14,4 @@ export const appConfig: ApplicationConfig = {
   ],
 };
 
-export const SERVER_URL = 'http://localhost:3000'; //process?.env['SERVER_URL'] ??
+export const SERVER_URL = environment.SERVER_URL;
