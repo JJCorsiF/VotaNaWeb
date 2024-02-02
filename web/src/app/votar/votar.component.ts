@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -12,7 +12,7 @@ import { VotacaoService } from '../shared/votacao.service';
   imports: [SharedModule],
   templateUrl: './votar.component.html',
 })
-export class VotarComponent {
+export class VotarComponent implements OnInit, OnDestroy {
   id: string = '';
 
   pauta: ExibirPautaResponse | null = null;

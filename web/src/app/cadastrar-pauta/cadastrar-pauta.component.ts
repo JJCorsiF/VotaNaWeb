@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -12,7 +12,7 @@ import { VotacaoService } from '../shared/votacao.service';
   imports: [SharedModule],
   templateUrl: './cadastrar-pauta.component.html',
 })
-export class CadastrarPautaComponent {
+export class CadastrarPautaComponent implements OnDestroy {
   descricao: string = '';
   categoria: string = '';
 

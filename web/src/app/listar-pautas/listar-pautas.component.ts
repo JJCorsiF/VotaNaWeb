@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Pauta } from '../shared/pauta';
@@ -11,7 +11,7 @@ import { VotacaoService } from '../shared/votacao.service';
   imports: [SharedModule],
   templateUrl: './listar-pautas.component.html',
 })
-export class ListarPautasComponent {
+export class ListarPautasComponent implements OnInit, OnDestroy {
   filtroDescricao: string = '';
   mostrarApenasComSessaoAberta: boolean = false;
 
