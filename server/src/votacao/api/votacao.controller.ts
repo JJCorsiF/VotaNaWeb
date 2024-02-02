@@ -1,11 +1,15 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
+import { PautaService } from '../domain/pauta.service';
 import { Sessao } from '../domain/sessao';
 import { VotacaoService } from '../domain/votacao.service';
 
 @Controller('pautas')
 export class VotacaoController {
-  constructor(private readonly votacaoService: VotacaoService) {}
+  constructor(
+    private readonly pautaService: PautaService,
+    private readonly votacaoService: VotacaoService,
+  ) {}
 
   @Post(':id/abrirSessao')
   async abrirSessao(@Param('id') id: string, @Body('duracao') duracao: number) {
@@ -19,12 +23,12 @@ export class VotacaoController {
 
   @Get(':id')
   async exibirPauta(@Param('id') id: string) {
-    return await this.votacaoService.exibirPauta(id);
+    return await this.pautaService.exibirPauta(id);
   }
 
   @Get()
   async listarPautas() {
-    return (await this.votacaoService.listarPautas()).map((pauta) => ({
+    return (await this.pautaService.listarPautas()).map((pauta) => ({
       ...pauta,
       sessao: pauta.sessao
         ? {
@@ -37,6 +41,6 @@ export class VotacaoController {
 
   @Post()
   async cadastrarPauta(@Body() pauta) {
-    return await this.votacaoService.cadastrarPauta(pauta);
+    return await this.pautaService.cadastrarPauta(pauta);
   }
 }
